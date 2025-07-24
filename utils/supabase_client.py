@@ -1,5 +1,22 @@
+import streamlit as st
+import os
 from supabase import create_client, Client
 
-url = "https://rfhzpjusycqwuvpsdzct.supabase.co"
-key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmaHpwanVzeWNxd3V2cHNkemN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMDk1MDAsImV4cCI6MjA2ODc4NTUwMH0.x6iMhYDsdW2OMfc66Q2Y4oOE7pKfQ8mZJyaTSMAbeHg"
+# Secure credential loading
+try:
+    # For Streamlit Cloud
+    url = st.secrets["supabase"]["url"]
+    key = st.secrets["supabase"]["key"]
+except (KeyError, FileNotFoundError):
+    # For local development
+    url = os.getenv("SUPABASE_URL")
+    key = os.getenv("SUPABASE_KEY")
+    
+    if not url or not key:
+        raise ValueError(
+            "Supabase credentials not found. "
+            "Please set SUPABASE_URL and SUPABASE_KEY environment variables "
+            "or configure Streamlit secrets."
+        )
+
 supabase: Client = create_client(url, key)
