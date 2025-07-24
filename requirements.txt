@@ -1,0 +1,9 @@
+streamlit
+pdfplumber
+sentence-transformers
+scikit-learn
+numpy
+pandas
+python-docx
+openai
+supabase
